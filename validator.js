@@ -69,10 +69,11 @@ var Validator = {
 				}
 			});
 		} else if ($this.attr('data-necessary') == 'true') {
+			var validateTitle = $this.attr('data-validateTitle');
 			$this.attr('data-status', 'false');
 			options.action = 'show';
 			options.status = 'error';
-			options.msg = '该字段不能为空';
+			options.msg = validateTitle ? validateTitle + '不能为空' : '该字段不能为空';
 			if(_this.tipsType == 'poplayer') {
 				Poplayer.showAlert({msg: options.msg});
 				$this.focus();

@@ -5,6 +5,7 @@
  * @update 2015.07.13
  */
 var Poptips = require('poptips');
+var Poplayer = require('poplayer');
 
 var Validator = {
 	/*var validateOptions = {
@@ -13,6 +14,7 @@ var Validator = {
 	};*/
 	init: function (validateOptions) {
 		this.validateOptions = validateOptions;
+		this.tipsType = validateOptions.tipsType || 'poplayer';//默认采用poplayer的提示样式，如果把tipsType设置为poptips则采用Poptips的提示样式
 
 		this.bindEvents();
 	},
@@ -32,8 +34,10 @@ var Validator = {
 				_this.executeValidate(options);
 			} else {
 				$this.on('focus', function() {
-					options.action = 'remove';
-					Poptips.init(options);
+					if(_this.tipsType == 'poptips') {
+						options.action = 'remove';
+						Poptips.init(options);
+					}
 				}).on('blur', function() {
 					_this.executeValidate(options);	
 				});
@@ -41,6 +45,7 @@ var Validator = {
 		});
 	},
 	executeValidate: function(options) {
+		var _this = this;
 		var $this = options.container;
 		var validateInfo = options.validateInfo;
 		var value = $this.val();
@@ -53,7 +58,12 @@ var Validator = {
 					options.action = 'show';
 					options.status = 'error';
 					options.msg = msg;
-					Poptips.init(options);
+					if(_this.tipsType == 'poplayer') {
+						Poplayer.showAlert({msg: options.msg});
+						$this.focus();
+					} else {
+						Poptips.init(options);
+					}
 				} else {
 					$this.attr('data-status', 'true');
 				}
@@ -63,7 +73,12 @@ var Validator = {
 			options.action = 'show';
 			options.status = 'error';
 			options.msg = '该字段不能为空';
-			Poptips.init(options);
+			if(_this.tipsType == 'poplayer') {
+				Poplayer.showAlert({msg: options.msg});
+				$this.focus();
+			} else {
+				Poptips.init(options);
+			}
 		}
 	} 
 };

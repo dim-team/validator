@@ -64,6 +64,7 @@ var Validator = {
 					} else {
 						Poptips.init(options);
 					}
+					return false;
 				} else {
 					$this.attr('data-status', 'true');
 				}

@@ -10,7 +10,8 @@ var Poplayer = require('poplayer');
 var Validator = {
 	/*var validateOptions = {
 		container: this.doms.attributeContainer,//校验容器
-		auto: false//是否自动校验
+		auto: false,//是否自动校验
+		autoFocus: false//出错时是否自动聚焦
 	};*/
 	init: function (validateOptions) {
 		this.validateOptions = validateOptions;
@@ -60,7 +61,9 @@ var Validator = {
 					options.msg = msg;
 					if(_this.tipsType == 'poplayer') {
 						Poplayer.showAlert({msg: options.msg});
-						$this.focus();
+						if(_this.validateOptions.autoFocus) {
+							$this.focus();
+						}
 					} else {
 						Poptips.init(options);
 					}
@@ -77,7 +80,9 @@ var Validator = {
 			options.msg = validateTitle ? validateTitle + '不能为空' : '该字段不能为空';
 			if(_this.tipsType == 'poplayer') {
 				Poplayer.showAlert({msg: options.msg});
-				$this.focus();
+				if(_this.validateOptions.autoFocus) {
+					$this.focus();
+				}
 			} else {
 				Poptips.init(options);
 			}
